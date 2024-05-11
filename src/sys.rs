@@ -25,8 +25,8 @@ mod tests {
     #[test]
     fn test_version() {
         assert!(
-            unsafe { hb_version_atleast(7, 0, 0) } != 0,
-            "The minimum supported version of HarfBuzz is 7.0.0"
+            unsafe { hb_version_atleast(8, 0, 0) } != 0,
+            "The minimum supported version of HarfBuzz is 8.0.0"
         );
     }
 }
