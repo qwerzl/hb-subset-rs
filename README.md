@@ -2,6 +2,14 @@
 [![docs.rs](https://img.shields.io/docsrs/hb-subset)](https://docs.rs/hb-subset/)
 
 # hb-subset
+## Notice
+This is a custom fork of [hb-subset-rs](https://github.com/henkkuli/hb-subset-rs).
+
+The modifications are:
+- Added `axis_location_set` and `axis_range_set`
+- Requires version 8.0.0 of harfbuzz (for the `hb_subset_input_set_axis_range` function)
+- Enforces the use of the bundled version of harfbuzz as most systems do not have harfbuzz 8.0.0.
+
 ## A Rust wrapper for HarfBuzz subsetting API
 
 This crate exposes [HarfBuzz](https://github.com/harfbuzz/harfbuzz) API for subsetting fonts.
