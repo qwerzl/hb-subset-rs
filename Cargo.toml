@@ -20,6 +20,7 @@ exclude = [
 
 [dependencies]
 thiserror = "1.0.50"
+libc = "0.2.154"
 
 [build-dependencies]
 bindgen = "0.69.1"

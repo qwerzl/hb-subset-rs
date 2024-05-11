@@ -6,9 +6,19 @@ use crate::{
     sys, AllocationError, FontFace, SubsettingError,
 };
 
+extern crate libc;
+use libc::{c_char, c_int};
+use std::ffi::CString;
+
 mod flags;
 
 pub use flags::*;
+use crate::sys::hb_tag_from_string;
+
+/// Replicates the HB_TAG function.
+// fn hb_tag(s: &str) -> u32 {
+//     s.chars().fold(0, |a, ch| (a << 8) + ch as u32)
+// }
 
 /// A description of how a font should be subset.
 ///
@@ -222,6 +232,42 @@ impl SubsetInput {
             return Err(SubsettingError);
         }
         Ok(unsafe { SubsetPlan::from_raw(plan) })
+    }
+    
+    /// 
+    /// 
+    /// 
+    #[doc(alias = "hb_subset_input_set_axis_range")]
+    pub fn axis_range_set(&mut self, font: &FontFace<'_>, axis: &str, min: i32, max: i32) {
+        // We need to convert the axis &str to a C string first
+        let c_string = CString::new(axis).unwrap();
+        let c_char_ptr: *const c_char = c_string.as_ptr();
+    
+        unsafe { sys::hb_subset_input_set_axis_range(
+            self.as_raw(),
+            font.as_raw(),
+            hb_tag_from_string(c_char_ptr, axis.len() as c_int),
+            min as f32,
+            max as f32,
+            f32::NAN
+        ) };
+    }
+    
+    ///
+    /// 
+    /// 
+    #[doc(alias = "hb_subset_input_pin_axis_location")]
+    pub fn axis_location_set(&mut self, font: &FontFace<'_>, axis: &str, value: i32) {
+        // We need to convert the axis &str to a C string first
+        let c_string = CString::new(axis).unwrap();
+        let c_char_ptr: *const c_char = c_string.as_ptr();
+
+        unsafe { sys::hb_subset_input_pin_axis_location(
+            self.as_raw(),
+            font.as_raw(),
+            hb_tag_from_string(c_char_ptr, axis.len() as c_int),
+            value as f32,
+        ) };
     }
 }
 
